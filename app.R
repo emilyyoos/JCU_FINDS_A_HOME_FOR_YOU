@@ -1,13 +1,18 @@
 #packages to install
 #install.packages("shiny")
 #install.packages("shinydashboard")
+#install.packages("devtools")
+#install.packages("DT")
 
 
 
 library(shiny)
 library(shinydashboard)
+library(DT)
 
-ui <- dashboardPage(
+myAnimalData <- read.csv("data/myAnimalData.csv")
+
+ui <- dashboardPage(skin = "black",
   dashboardHeader(title = "Northeast Ohio SPCA",
                   dropdownMenu(type = "notifications",
                                messageItem(
@@ -72,13 +77,29 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
+    tabItems(
+      tabItem(tabName = "overview",
     fluidRow(
       infoBox("Arrivals", 52, icon = icon("share-alt"), fill = TRUE, color = "red"),
       infoBox("Adoptions", 30, icon = icon("heart"), fill = TRUE),
       infoBox("Animals", 100, icon = icon("paw"), fill = TRUE, color = "teal")
-    )
+    ),
+    fluidRow(
+      box(
+        title = "Age Distribution", status = "primary", solidHeader = TRUE,
+        collapsible = TRUE,
+        dataTableOutput("animal_age"),
+        width = "100%"
+      )
+      
+    )),
+    tabItem(tabName = "new"),
+    tabItem(tabName = "adoptions"),
+    tabItem(tabName = "current"),
+    tabItem(tabName = "staff")
   )
   
+)
 )
 
 server <- function(input, output, session) {
@@ -89,6 +110,15 @@ server <- function(input, output, session) {
  #   })
  #   dropdownMenu(type = "messages", .list = msgs)
  # })
+  
+  #animal age output in 'overview' tab
+  output$animal_age <- renderDataTable({
+    datatable(myAnimalData, options = list(searching = FALSE,
+                                           initComplete = JS(
+                                             "function(settings, json) {",
+                                             "$(this.api().table().header()).css({'background-color': '#fff', 'color': '#000'});",
+                                             "}")))
+  })
   
 }
 
