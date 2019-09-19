@@ -70,8 +70,12 @@ ui <- dashboardPage(skin = "black",
                         sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
                                           label = "Search..."),
                         menuItem("Overview", tabName = "overview", icon = icon("dashboard")),
-                        menuItem("New Arrivals", tabName = "new", icon = icon("paw")),
-                        menuItem("Adoptions", tabName = "adoptions", icon = icon("heart")),
+                        menuItem("New Arrivals", tabName = "new", icon = icon("paw"),
+                                 menuSubItem("Cat / Kitten", tabName = "cat_kitten"),
+                                 menuSubItem("Dog / Puppy", tabName = "dog_puppy")),
+                        menuItem("Adoptions", tabName = "adoptions", icon = icon("heart"),
+                                 menuSubItem("Cat / Kitten", tabName = "adopt_cat_kitten"),
+                                 menuSubItem("Dog / Puppy", tabName = "adopt_dog_puppy")),
                         menuItem("Current Animals", tabName = "current", icon = icon("th")),
                         menuItem("Staff", tabName = "staff", icon = icon("user"))
                       )
@@ -93,8 +97,8 @@ ui <- dashboardPage(skin = "black",
                                   )
                                   
                                 )),
-                        tabItem(tabName = "new",
-                                fluidRow(align = "center", h1("Animal's History")),
+                        tabItem(tabName = "cat_kitten",
+                                fluidRow(align = "center", h1("Cat's History")),
                                 hr(),
                                 fluidRow(
                                   column(4,
@@ -185,14 +189,177 @@ ui <- dashboardPage(skin = "black",
                                          uiOutput("cat_shots"))
                                 ),
                                 fluidRow(
+                                  # column(6,
+                                  #        checkboxInput("cat_shot_needed",
+                                  #                      h4("What shots does your cat need?"),
+                                  #                      choices = c("Vac A", "Vac B", "Vac C"))
+                                  #        )
+                                ),
+                                fluidRow(
                                   column(6,
-                                         checkboxInput("cat_shot_needed",
-                                                       h4("What shots does your cat need?"),
-                                                       choices = c("Vac A", "Vac B", "Vac C"))
+                                         textInput("cat_notes", h4("What do you want to tell the new owner about your pet?"), width = "100%")
+                                         ),
+                                  column(6,
+                                         uiOutput("cat_contact")
                                          )
                                 )
                                 ),
-                        tabItem(tabName = "adoptions"),
+                        tabItem(tabName = "dog_puppy",
+                                fluidRow(align = "center", h1("Dog's History")),
+                                hr(),
+                                fluidRow(
+                                  column(4,
+                                         uiOutput("dog_kids"))),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_location", h4("Where is dog kept during the day?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_run", h4("Does your dog have full run of the house?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_hold", h4("How long can your dog hold it's urine?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_accidents")),
+                                  column(6,
+                                         uiOutput("dog_leg"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_food", h4("What does your dog like to eat?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_treats", h4("What treats do you give your dog (ex: Rawhides, Bones)?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_bath")
+                                  ),
+                                  column(6,
+                                         uiOutput("dog_groomed")
+                                  )
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_groomed_location")
+                                  ),
+                                  column(6,
+                                         uiOutput("dog_beg")
+                                  )
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_brush")
+                                         ),
+                                  column(6,
+                                         uiOutput("dog_teeth")
+                                         )
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_behave")
+                                  ),
+                                  column(6,
+                                         uiOutput("dog_w_cat")
+                                  )
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_tricks", h4("What tricks does your dog know?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_leash")
+                                         ),
+                                  column(6,
+                                         uiOutput("dog_pull")
+                                         )
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_sleep", h4("Where does your dog sleep?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_active")),
+                                  column(6,
+                                         uiOutput("dog_hyper"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_hyper_explain", h4("Explain"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         textInput("dog_toys", h4("What toys does your dog like?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_fence")),
+                                  column(6,
+                                         uiOutput("dog_jump"))
+                                ),
+                                fluidRow(
+                                  column(12,
+                                         uiOutput("dog_bark"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_heartworm")),
+                                  column(6,
+                                         textInput("dog_heartworm_due", h4("Due?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         textInput("dog_flea", h4("What flea control do you use"), width = "100%")),
+                                  column(6,
+                                         textInput("dog_flea_due", h4("Due?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         uiOutput("dog_shots")),
+                                  column(6,
+                                         textInput("dog_shots_needed", h4("What shots does your dog need?"), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(6,
+                                         textInput("dog_notes", h4("What would you tell the new owner about your pet?"), width = "100%")),
+                                  column(6,
+                                         textInput("dog_contact", h4("Is it okay if the new owner contacts you?"), width = "100%"))
+                                )
+                        ),
+                        tabItem(tabName = "adopt_cat_kitten",
+                                textOutput("cat_par"),
+                                fluidRow(align = "center", h3("Northeast Ohio SPCA Cat and Kitten Adoption Application")),
+                                fluidRow(
+                                  column(6,
+                                         textInput("cat_cntrl_no", h5("Control No."), width = "100%")),
+                                  column(6,
+                                         textInput("cat_adopt_no", h5("Adoption No."), width = "100%"))
+                                ),
+                                fluidRow(
+                                  column(4,
+                                         textInput("cat_cash", h5("Cash:"), width = "100%"),
+                                         textInput("cat_check", h5("Check:"), width = "100%"),
+                                         textInput("cat_total", h5("Total:"), width = "100%")
+                                         ),
+                                  column(4,
+                                         textInput("cat_breed", h5("Breed:"), width = "100%"),
+                                         textInput("cat_age", h5("Age:"), width = "100%"),
+                                         textInput("cat_sex", h5("Sex:"), width = "100%")
+                                         ),
+                                  column(4,textInput("cat_vacc", h5("Vacc:"), width = "100%"),
+                                         textInput("cat_worm", h5("Wormed:"), width = "100%"),
+                                         textInput("cat_name", h5("Name:"), width = "100%")
+                                         )
+                                )
+                                ),
+                        tabItem(tabName = "adopt_dog_puppy"),
                         tabItem(tabName = "current"),
                         tabItem(tabName = "staff")
                       )
@@ -286,6 +453,156 @@ server <- function(input, output, session) {
     selectInput("cat_shots",
                 h4("Is your cat up to date on shots?"),
                 choices = c("Yes", "No"))
+  })
+  
+  output$cat_contact <- renderUI({
+    selectInput("cat_contact",
+                h4("Is it okay if the new owner contacts you?"),
+                choices = c("Yes", "No"))
+  })
+  #####
+  
+  kids_list_dog <- c("Children Of All Ages", "Only 12+", "Not Good With Kids")
+
+  output$dog_kids <- renderUI({
+    selectInput("dog_kids",
+                h4("Good With Kids?"),
+                choices = kids_list_dog)
+  })
+  # 
+  # # output$kids_explain <- renderUI({
+  # #   textInput("explain", "Explain", width = "90%")
+  # # })
+  # 
+  output$dog_accidents <- renderUI({
+    selectInput("dog_accidents",
+                h4("Does your dog ever have accidents?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_leg <- renderUI({
+    selectInput("dog_leg",
+                h4("Does your dog lift its leg?"),
+                choices = c("Yes", "No"))
+  })
+  # #####
+  output$dog_bath <- renderUI({
+    selectInput("dog_bath",
+                h4("Does your dog like taking a bath?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_groomed <- renderUI({
+    selectInput("dog_groomed",
+                h4("Is your dog groomed?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_groomed_location <- renderUI({
+    req(input$dog_groomed == "Yes")
+    textInput("dog_groomed_location", h4("Where?"), width = "100%")
+  })
+
+  output$dog_beg <- renderUI({
+    selectInput("dog_beg",
+                h4("Does your dog beg for table food?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_behave <- renderUI({
+    selectInput("dog_behave",
+                h4("Does your dog behave?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_brush <- renderUI({
+    selectInput("dog_brush",
+                h4("Does your dog like to be brushed?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_teeth <- renderUI({
+    selectInput("dog_teeth",
+                h4("Does you brush your dog's teeth?"),
+                choices = c("Yes", "No"))
+  })
+
+
+  output$dog_w_cat <- renderUI({
+    selectInput("dog_w_cat",
+                h4("Has your dog been around cats?"),
+                choices = c("Yes", "No"))
+  })
+
+  output$dog_leash <- renderUI({
+    selectInput("dog_leash",
+                h4("Does your dog walk on a leash?"),
+                choices = c("Yes", "No")
+                )
+  })
+
+  output$dog_pull <- renderUI({
+    selectInput("dog_pull",
+                h4("Does your dog pull?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_active <- renderUI({
+    selectInput("dog_active",
+                h4("Is your dog active?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_hyper <- renderUI({
+    selectInput("dog_hyper",
+                h4("Is your dog hyper?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_fence <- renderUI({
+    selectInput("dog_fence",
+                h4("Do you keep your dog in a fenced yard?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_jump <- renderUI({
+    req(input$dog_fence == "Yes")
+    selectInput("dog_jump",
+                h4("Does your dog try to jump the fence?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_bark <- renderUI({
+    selectInput("dog_bark",
+                h4("Does your dog bark a lot?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_heartworm <- renderUI({
+    selectInput("dog_heartworm",
+                h4("Is your dog on heartworm medication?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$dog_shots <- renderUI({
+    selectInput("dog_shots",
+                h4("Is your dog up to date on it's shots?"),
+                choices = c("Yes", "No")
+    )
+  })
+  
+  output$cat_par <- renderText({
+    "We do not guarantee the behavior or health of any animal adopted from the shelter. The information we
+    have on the pets had been provided by the former owners or foster homes. Adult animals are not
+    recommended to families with small children. If your pet becomes sick within two weeks, contact the Pet
+    Shelter immediately. If you go to another facility we do not reimburse your expenses 216-351-7387"
   })
   
 }
