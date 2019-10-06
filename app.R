@@ -344,20 +344,105 @@ ui <- dashboardPage(skin = "black",
                                 ),
                                 fluidRow(
                                   column(4,
-                                         textInput("cat_cash", h5("Cash:"), width = "100%"),
-                                         textInput("cat_check", h5("Check:"), width = "100%"),
-                                         textInput("cat_total", h5("Total:"), width = "100%")
+                                         textInput("cat_cash", h5("Cash"), width = "100%"),
+                                         textInput("cat_check", h5("Check"), width = "100%"),
+                                         textInput("cat_total", h5("Total"), width = "100%")
                                          ),
                                   column(4,
-                                         textInput("cat_breed", h5("Breed:"), width = "100%"),
-                                         textInput("cat_age", h5("Age:"), width = "100%"),
-                                         textInput("cat_sex", h5("Sex:"), width = "100%")
+                                         textInput("cat_breed", h5("Breed"), width = "100%"),
+                                         textInput("cat_age", h5("Age"), width = "100%"),
+                                         textInput("cat_sex", h5("Sex"), width = "100%")
                                          ),
-                                  column(4,textInput("cat_vacc", h5("Vacc:"), width = "100%"),
-                                         textInput("cat_worm", h5("Wormed:"), width = "100%"),
-                                         textInput("cat_name", h5("Name:"), width = "100%")
+                                  column(4,textInput("cat_vacc", h5("Vacc"), width = "100%"),
+                                         textInput("cat_worm", h5("Wormed"), width = "100%"),
+                                         textInput("cat_name", h5("Name"), width = "100%")
                                          )
-                                )
+                                ),
+                                hr(),
+                                fluidRow(align= "center", h3("Adopter Information")),
+                                fluidRow(
+                                  column(4,
+                                         textInput("adopt_name", h5("Adopter's Name"), width = "100%"),
+                                         textInput("adopt_address", h5("Address"), width = "100%")
+                                         ),
+                                  column(4,
+                                         textInput("adopt_phone", h5("Phone"), width = "100%"),
+                                         textInput("adopt_city", h5("City/State"), width = "100%")
+                                         ),
+                                  column(4,
+                                         textInput("adopt_email", h5("Email"), width = "100%"),
+                                         textInput("adopt_zip", h5("Zip"), width = "100%")
+                                         )
+                                ),
+                                fluidRow(align = "center", h3("References")),
+                                fluidRow(
+                                  column(4, 
+                                         textInput("ref_1", h5("Reference Name"), width = "100%"),
+                                         textInput("ref_2", h5("Reference Name"), width = "100%")
+                                         ),
+                                  column(4,
+                                         textInput("ref_1_add", h5("Reference Address"), width = "100%"),
+                                         textInput("ref_2_add", h5("Reference Address"), width = "100%")
+                                         ),
+                                  column(4,
+                                         textInput("ref_1_phone", h5("Reference Phone"), width = "100%"),
+                                         textInput("ref_2_phone", h5("Reference Phone"), width = "100%")
+                                         )
+                                ),
+                                fluidRow(align = "center", h3("Adoption Information")),
+                                fluidRow(
+                                  column(4,
+                                         uiOutput("pet_for"),
+                                         uiOutput("adopt_fam"),
+                                         uiOutput("adopt_lease"),
+                                         textInput("adopt_pet_loc", h5("Where will your pet be kept?", width = "100%")),
+                                         uiOutput("adopt_other_pets"),
+                                         uiOutput("adopt_other_pets_where"),
+                                         uiOutput("adopt_before"),
+                                         uiOutput("adopt_before_concl"),
+                                         uiOutput("adopt_spca"),
+                                         textInput("adopt_occ", h5("Occupation"), width = "100%"),
+                                         textInput("adopt_sup", h5("Supervisor's Name"), width = "100%")
+                                         ),
+                                  column(4,
+                                         uiOutput("adopt_single"),
+                                         uiOutput("adopt_work"),
+                                         uiOutput("adopt_move"),
+                                         uiOutput("adopt_allergies"),
+                                         uiOutput("adopt_other_pets_y"),
+                                         uiOutput("adopt_other_pets_length"),
+                                         uiOutput("adopt_before_length"),
+                                         br(),
+                                         uiOutput("adopt_spca_concl"),
+                                         textInput("adopt_business", h5("Business Phone"), width = "100%"),
+                                         textInput("adopt_vet", h5("Vet's Name"), width = "100%")
+                                         ),
+                                  column(4,
+                                         uiOutput("adopt_live"),
+                                         uiOutput("adopt_hours"),
+                                         uiOutput("adopt_move_y"),
+                                         br(),
+                                         br(),
+                                         br(),
+                                         uiOutput("adopt_before_breed"),
+                                         br(),
+                                         textInput("adopt_comp", h5("Company"), width = "100%")
+                                         )
+                                ),
+                                fluidRow(align = "center", h3("Signature")),
+                                fluidRow(textOutput("cat_adopt_agree")),
+                                fluidRow(
+                                  column(6,
+                                         textInput("adopt_sig", h5("Adopter's Signature"), width = "100%")
+                                         ),
+                                  column(6,
+                                         textInput("adopt_date", h5("Date"), width = "100%")
+                                         )
+                                ),
+                                fluidRow(
+                                  checkboxInput("info", "Send me information on upcoming shelter events!")
+                                ),
+                                fluidRow(textOutput("cat_adopt_concl"))
                                 ),
                         tabItem(tabName = "adopt_dog_puppy"),
                         tabItem(tabName = "current"),
@@ -603,6 +688,152 @@ server <- function(input, output, session) {
     have on the pets had been provided by the former owners or foster homes. Adult animals are not
     recommended to families with small children. If your pet becomes sick within two weeks, contact the Pet
     Shelter immediately. If you go to another facility we do not reimburse your expenses 216-351-7387"
+  })
+  
+  output$pet_for <- renderUI({
+    selectInput(
+      "pet_for",
+      h5("Who is this pet for?"),
+      choices = c("Self", "Gift", "Other"),
+      width = "100%"
+    )
+  })
+  
+  output$adopt_single <- renderUI({
+    selectInput("adopt_single",
+                h5("Are you single?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_live <- renderUI({
+    selectInput("adopt_live",
+                h5("Do you live alone?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_fam <- renderUI({
+    selectInput("adopt_fam",
+                h5("Do you live with family?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_work <- renderUI({
+    selectInput("adopt_work",
+                h5("Do you work?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_hours <- renderUI({
+    req(input$adopt_work == "Yes")
+    textInput("adopt_hours", h5("What are your work hours?"), width = "100%")
+  })
+  
+  output$adopt_lease <- renderUI({
+    selectInput("adopt_lease",
+                h5("Does your lease allow pets?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_move <- renderUI({
+    selectInput("adopt_move",
+                h5("Are you moving?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_move_y <- renderUI({
+    req(input$adopt_move == "Yes")
+    textInput("adopt_move_y", h5("When?"), width = "100%")
+  })
+  
+  output$adopt_allergies <- renderUI({
+    selectInput("adopt_allergies",
+                h5("Allergies?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_other_pets <- renderUI({
+    selectInput("adopt_other_pets",
+                h5("Do you have other pets?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_other_pets_y <- renderUI({
+    req(input$adopt_other_pets == "Yes")
+    textInput("adopt_other_pets_y", h5("What kind?"), width = "100%")
+  })
+  
+  output$adopt_other_pets_where <- renderUI({
+    req(input$adopt_other_pets == "Yes")
+    textInput("adopt_other_pets_where", h5("Where did you get your pet?"), width = "100%")
+  })
+  
+  output$adopt_other_pets_length <- renderUI({
+    req(input$adopt_other_pets == "Yes")
+    textInput("adopt_other_pets_length", h5("How long did you have it?"), width = "100%")
+  })
+  
+  output$adopt_before <- renderUI({
+    selectInput("adopt_before",
+                h5("Have you had a pet before?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_before_length <- renderUI({
+    req(input$adopt_before == "Yes")
+    textInput("adopt_before_length", h5("How long did you have it?"), width = "100%")
+  })
+  
+  output$adopt_before_breed <- renderUI({
+    req(input$adopt_before == "Yes")
+    textInput("adopt_before_breed", h5("Breed?"), width = "100%")
+  })
+  
+  output$adopt_before_concl <- renderUI({
+    req(input$adopt_before == "Yes")
+    textInput("adopt_before_concl", h5("What happened to the pet?"), width = "100%")
+  })
+  
+  output$adopt_spca <- renderUI({
+    selectInput("adopt_spca",
+                h5("Have you ever adopted from the SPCA before?"),
+                choices = c("Yes", "No"),
+                width = "100%"
+    )
+  })
+  
+  output$adopt_spca_concl <- renderUI({
+    req(input$adopt_spca == "Yes")
+    textInput("adopt_spca_concl", h5("What happened to the pet?"), width = "100%")
+  })
+  
+  output$cat_adopt_concl <- renderText({
+    "We do not guarantee the behavior or health of any animal adopted from the shelter. The information we
+    have on the pets had been provided by the former owners or foster homes. Adult animals are not
+    recommended to families with small children. If your pet becomes sick within two weeks, contact the Pet
+    Shelter immediately. If you go to another facility we do not reimburse your expenses 216-351-7387"
+    
+  })
+  
+  output$cat_adopt_agree <- renderText({
+    "I have read and I accept the terms of the adoption agreement printed on this application."
   })
   
 }
